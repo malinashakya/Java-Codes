@@ -1,0 +1,18 @@
+History of your games :
+
+Player a:
+Bet	Card1	Card2	Card3	Final Amount
+
+Gameplay History for Player a:
+Round 1: Bet - 50, Cards - 1, 10, 3, Final Amount - 150
+Round 2: Bet - 100, Cards - 11, 6, 13, Final Amount - 50
+Round 3: Bet - 50, Cards - 2, 5, 4, Final Amount - 150
+Round 4: Bet - 150, Cards - 2, 3, 13, Final Amount - 450
+Round 5: Bet - 450, Cards - 12, 7, 5, Final Amount - 0
+
+Player b:
+Bet	Card1	Card2	Card3	Final Amount
+
+Gameplay History for Player b:
+Round 1: Bet - 50, Cards - 8, 4, 3, Final Amount - 150
+Round 2: Bet - 20, Cards - 7, 7, 6, Final Amount - 190
