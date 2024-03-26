@@ -107,13 +107,13 @@ public class NewHashSet {
         Iterator<Object> iterator = iterator();
         while (iterator.hasNext()) {
             Object element = iterator.next();
-            
+
             if (element instanceof NewHashSet) {
-                
+
                 System.out.println(tabs + "Element: " + element);
                 NewHashSet collisionHandleSet = (NewHashSet) element;
                 collisionHandleSet.printAllElements(tabs + "\t");
-            } else if(element!=null){
+            } else if (element != null) {
                 System.out.println(tabs + "Element: " + element);
             }
         }
@@ -124,83 +124,6 @@ public class NewHashSet {
     public void printAllElements() {
         printAllElements("");
 
-    }
-
-    class CollisionHandleSet {
-
-        public Object[] array;
-        public int size;
-
-        public CollisionHandleSet() {
-            array = new Object[5];
-            size = 0;
-        }
-
-        public boolean add(Object value) {
-            if (contains(value)) {
-                return false;
-            }
-
-            int index = getIndex(value);
-
-            array[index] = value;
-            size++;
-            return true;
-        }
-
-        public boolean remove(Object value) {
-            if (!contains(value)) {
-                return false;
-            }
-
-            int index = getIndex(value);
-
-            array[index] = null;
-            size--;
-            return true;
-        }
-
-        public int size() {
-            return size;
-        }
-
-        public int getIndex(Object obj) {
-            int index = Math.abs(obj.hashCode() % 5);
-
-            return index;
-        }
-
-        public boolean contains(Object value) {
-            int index = getIndex(value);
-            Object previousValue = array[index];
-            return (previousValue != null && previousValue.equals(value));
-
-        }
-
-        public Iterator<Object> iterator() {
-            return new Iterator<Object>() {
-                private int currentIndex = 0;
-
-                @Override
-                public boolean hasNext() {
-                    return currentIndex < size;
-                }
-
-                @Override
-                public Object next() {
-                    return array[currentIndex++];
-                }
-            };
-        }
-
-        // Method to print all elements in the Inner class
-        public void printAllElements() {
-            Iterator<Object> iterator = iterator();
-            while (iterator.hasNext()) {
-                Object element = iterator.next();
-                System.out.println("Collision Element: " + element);
-            }
-        }
     }
 
     public static void main(String[] args) {
