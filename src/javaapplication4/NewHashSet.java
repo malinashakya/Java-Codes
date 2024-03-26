@@ -4,57 +4,62 @@ import java.util.Iterator;
 
 public class NewHashSet {
 
-    public Object[][] array;
+    public Object[] array;
     public int size;
-    public static final int CAPACITY = 25;
+    private int capacity = 5;
 
     public NewHashSet() {
-        array = new Object[CAPACITY][];
+        array = new Object[capacity];
+        size = 0;
+
+    }
+
+    public NewHashSet(int capacity) {
+        this.capacity = capacity;
+        array = new Object[capacity];
         size = 0;
     }
 
     public boolean add(Object value) {
+        //same old value
         if (contains(value)) {
             return false;
         }
-
         int index = getIndex(value);
-        if (array[index] == null) {
-            array[index] = new Object[1];
-            array[index][0] = value;
+
+        //If old value and new value is different
+        if (array[index] != null) {
+            NewHashSet collisionset = new NewHashSet(capacity * 2);
+            Object oldValue = array[index];
+            collisionset.add(oldValue);
+            collisionset.add(value);
+            array[index] = collisionset;
         } else {
-            Object[] currentArray = array[index];
-            Object[] newArray = new Object[currentArray.length + 1];
-            System.arraycopy(currentArray, 0, newArray, 0, currentArray.length);
-            newArray[currentArray.length] = value;
-            array[index] = newArray;
+            array[index] = value;
+            size++;
         }
-        size++;
         return true;
     }
 
     public boolean remove(Object value) {
-        int index = getIndex(value);
-        if (array[index] != null) {
-            Object[] currentArray = array[index];
-            int newSize = currentArray.length - 1;
-            Object[] newArray = new Object[newSize];
-            int newIndex = 0;
-            boolean found = false;
-            for (Object obj : currentArray) {
-                if (obj.equals(value)) {
-                    found = true;
-                    continue;
-                }
-                newArray[newIndex++] = obj;
-            }
-            if (found) {
-                array[index] = newArray;
-                size--;
-                return true;
-            }
+        //there is no such value
+        if (!contains(value)) {
+            return false;
         }
-        return false;
+
+        int index = getIndex(value);
+        if (array[index] instanceof NewHashSet) {
+            NewHashSet collisionHandleSet = (NewHashSet) array[index];
+            collisionHandleSet.remove(value);
+            if (collisionHandleSet.size() == 0) {
+                array[index] = null;
+            }
+        } else {
+            array[index] = null;
+        }
+
+        size--;
+        return true;
     }
 
     public int size() {
@@ -62,76 +67,159 @@ public class NewHashSet {
     }
 
     public int getIndex(Object obj) {
-        int index = Math.abs(obj.hashCode() % CAPACITY);
+        int index = Math.abs(obj.hashCode() % capacity);
+
         return index;
     }
 
     public boolean contains(Object value) {
         int index = getIndex(value);
-        Object[] currentArray = array[index];
-        if (currentArray != null) {
-            for (Object obj : currentArray) {
-                if (obj.equals(value)) {
-                    return true;
-                }
-            }
+        Object previousValue = array[index];
+        //Inside CollisionHandleSet
+        if (previousValue instanceof NewHashSet) {
+            NewHashSet collisionHandleSet = (NewHashSet) previousValue;
+            return collisionHandleSet.contains(value);
+        } //If there is no CollisionHandleSet
+        else {
+            return (previousValue != null && previousValue.equals(value));
         }
-        return false;
+
     }
 
+    public Iterator<Object> iterator() {
+        return new Iterator<Object>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < capacity;
+            }
+
+            @Override
+            public Object next() {
+                return array[currentIndex++];
+            }
+        };
+    }
+
+    // Method to print all elements in the Outer class i.e. NewHashSet
+    public void printAllElements(String tabs) {
+        Iterator<Object> iterator = iterator();
+        while (iterator.hasNext()) {
+            Object element = iterator.next();
+            
+            if (element instanceof NewHashSet) {
+                
+                System.out.println(tabs + "Element: " + element);
+                NewHashSet collisionHandleSet = (NewHashSet) element;
+                collisionHandleSet.printAllElements(tabs + "\t");
+            } else if(element!=null){
+                System.out.println(tabs + "Element: " + element);
+            }
+        }
+
+    }
+    //Delegate method
+
     public void printAllElements() {
-        for (Object[] subArray : array) {
-            if (subArray != null) {
-                for (Object element : subArray) {
-                    if (element instanceof Object[]) {
-                        Iterator<Object> iterator = new NestedArrayIterator((Object[]) element);
-                        while (iterator.hasNext()) {
-                            System.out.println("Element: " + iterator.next());
-                        }
-                    } else {
-                        System.out.println("Element: " + element);
-                    }
+        printAllElements("");
+
+    }
+
+    class CollisionHandleSet {
+
+        public Object[] array;
+        public int size;
+
+        public CollisionHandleSet() {
+            array = new Object[5];
+            size = 0;
+        }
+
+        public boolean add(Object value) {
+            if (contains(value)) {
+                return false;
+            }
+
+            int index = getIndex(value);
+
+            array[index] = value;
+            size++;
+            return true;
+        }
+
+        public boolean remove(Object value) {
+            if (!contains(value)) {
+                return false;
+            }
+
+            int index = getIndex(value);
+
+            array[index] = null;
+            size--;
+            return true;
+        }
+
+        public int size() {
+            return size;
+        }
+
+        public int getIndex(Object obj) {
+            int index = Math.abs(obj.hashCode() % 5);
+
+            return index;
+        }
+
+        public boolean contains(Object value) {
+            int index = getIndex(value);
+            Object previousValue = array[index];
+            return (previousValue != null && previousValue.equals(value));
+
+        }
+
+        public Iterator<Object> iterator() {
+            return new Iterator<Object>() {
+                private int currentIndex = 0;
+
+                @Override
+                public boolean hasNext() {
+                    return currentIndex < size;
                 }
+
+                @Override
+                public Object next() {
+                    return array[currentIndex++];
+                }
+            };
+        }
+
+        // Method to print all elements in the Inner class
+        public void printAllElements() {
+            Iterator<Object> iterator = iterator();
+            while (iterator.hasNext()) {
+                Object element = iterator.next();
+                System.out.println("Collision Element: " + element);
             }
         }
     }
 
     public static void main(String[] args) {
-        Object ob = "abc";
-        System.out.println(ob instanceof String);
+//        Object ob = "abc";
+//        System.out.println(ob instanceof String);
         NewHashSet set = new NewHashSet();
 
         set.add("Hello");
         set.add(123);
-        set.add("World");
-        set.add(123); // Adding 123 again to cause collision
+        System.out.println("Added World:" + set.add("World"));
+        System.out.println("Added 123:" + set.add(123));
         set.add(456);
         set.add("Malina");
-        set.add("Lijala");
-        set.add("World"); // Adding World again to cause collision
-        set.add(789);
-
+        System.out.println("Added Lijala:" + set.add("Lijala"));
         set.printAllElements();
+        set.remove(123);
 
-        System.out.println("Size: " + set.size());
+        System.out.println("After removing 123:");
+        set.printAllElements();
     }
 
-    private static class NestedArrayIterator implements Iterator<Object> {
-        private final Object[] array;
-        private int index = 0;
-
-        NestedArrayIterator(Object[] array) {
-            this.array = array;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return index < array.length;
-        }
-
-        @Override
-        public Object next() {
-            return array[index++];
-        }
-    }
 }
