@@ -101,30 +101,27 @@ public class NewHashSet {
             }
         };
     }
+// Method to print all elements in the Outer class i.e. NewHashSet
+public void printAllElements() {
+    Iterator<Object> iterator = iterator();
+    while (iterator.hasNext()) {
+        Object element = iterator.next();
 
-    // Method to print all elements in the Outer class i.e. NewHashSet
-    public void printAllElements(String tabs) {
-        Iterator<Object> iterator = iterator();
-        while (iterator.hasNext()) {
-            Object element = iterator.next();
-
-            if (element instanceof NewHashSet) {
-
-                System.out.println(tabs + "Element: " + element);
-                NewHashSet collisionHandleSet = (NewHashSet) element;
-                collisionHandleSet.printAllElements(tabs + "\t");
-            } else if (element != null) {
-                System.out.println(tabs + "Element: " + element);
-            }
+        if (element instanceof NewHashSet) {
+            NewHashSet collisionHandleSet = (NewHashSet) element;
+            collisionHandleSet.printAllElements();
+        } else if (element != null) {
+            System.out.println("Element: " + element);
         }
-
     }
+}
+
     //Delegate method
 
-    public void printAllElements() {
-        printAllElements("");
-
-    }
+//    public void printAllElements() {
+//        printAllElements("");
+//
+//    }
 
     public static void main(String[] args) {
 //        Object ob = "abc";
