@@ -7,8 +7,6 @@ public class NewHashSet {
     public Object[] array;
     public int size;
     private int capacity = 5;
-    private Iterator<Object> innerIterator; // Iterator for inner sets
-    private boolean iteratorCreated = false; // Flag to track iterator creation
 
     public NewHashSet() {
         array = new Object[capacity];
@@ -88,7 +86,7 @@ public class NewHashSet {
     class IteratorImpl implements Iterator {
 
         private int currentIndex = 0;
-       private Iterator<Object> storedIterator = null;
+        private Iterator<Object> storedIterator = null;
 
         /**
          * If array[currentIndex] is of NewHashSet type, we should iterate
@@ -99,29 +97,80 @@ public class NewHashSet {
          */
         @Override
         public boolean hasNext() {
+            int originalIndex = currentIndex; // Store the original index
+
             if (array[currentIndex] instanceof NewHashSet) {
-                /**
-                 * Take iterator from HashSet and store it to use the same iterator later
-                 */
-                  if (storedIterator == null) {
-                NewHashSet innerHashSet = ((NewHashSet) array[currentIndex]);
-                storedIterator = innerHashSet.iterator();
+                if (storedIterator == null) {
+                    NewHashSet innerHashSet = ((NewHashSet) array[currentIndex]);
+                    storedIterator = innerHashSet.iterator();
+                }
+
+                if (storedIterator.hasNext()) {
+                    return true;
+                }
             }
-               
-                return storedIterator.hasNext();
-            }
+
+            // Iterate over the array to find the next non-null element
             while (currentIndex < capacity) {
                 if (array[currentIndex] != null) {
                     return true;
                 }
                 currentIndex++;
             }
+
+            // Reset currentIndex to its original value
+            currentIndex = originalIndex;
+
             return false;
         }
 
         @Override
         public Object next() {
-            return array[currentIndex++];
+            /**
+                 * It should return the unique elements present in the array until it has returned all elements
+                 */
+                /**
+                 * Using one index we returned the element present inside the index of the array but if there is hashSet in the current index 
+                 * then use the iterator of the hashSet to retrieve the next element if it contains remaining elements . 
+                 * We should maintain the currentIndex to point the next element to be returned and
+                 * we should maintain the iterator of particular hashSet typed element
+                 * currently being processed.
+                 */
+                
+            // Check if there are more elements to return
+            if (!hasNext()) {
+                // If no more elements, return null or handle the case accordingly
+                return null; // You can customize this to match your requirements
+            }
+
+            // If the current element is a NewHashSet, return the next element from it
+            if (array[currentIndex] instanceof NewHashSet) {
+                if (storedIterator == null) {
+                    NewHashSet innerHashSet = (NewHashSet) array[currentIndex];
+                    storedIterator = innerHashSet.iterator();
+                }
+                if (storedIterator.hasNext()) {
+                    return storedIterator.next();
+                } else {
+                    // If the inner HashSet has no more elements, reset storedIterator to null
+                    storedIterator = null;
+                    currentIndex++; // Move to the next index in the outer array
+                    return next(); // Recursively call next() to proceed with the next element in the outer array
+                }
+            }
+
+            // Find the next non-null element in the array
+            while (currentIndex < capacity) {
+                if (array[currentIndex] != null) {
+                    Object nextElement = array[currentIndex];
+                    currentIndex++; // Move to the next index
+                    return nextElement;
+                }
+                currentIndex++; // Move to the next index
+            }
+
+            // This should not happen if hasNext() is implemented correctly
+            return null; // You can customize this to match your requirements
         }
 
     }
@@ -135,10 +184,7 @@ public class NewHashSet {
         Iterator<Object> iterator = iterator();
         while (iterator.hasNext()) {
             Object element = iterator.next();
-            if (element instanceof NewHashSet) {
-                NewHashSet collisionHandleSet = (NewHashSet) element;
-                collisionHandleSet.printAllElements();
-            } else {
+            if (element != null) {
                 System.out.println("Element: " + element);
             }
         }
