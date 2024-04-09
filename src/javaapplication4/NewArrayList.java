@@ -69,18 +69,21 @@ public class NewArrayList implements Iterable<Object> {
     public void remove(Object obj) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(obj)) {
-                removeObjofIndex(i);
+                removeObjOfIndex(i);
             }
         }
     }
-
-    public void removeObjofIndex(int index) {
-        for (int i = index; i < size - 1; i++) {
-            array[i] = array[i + 1];
-        }
-        array[size - 1] = null;
-        size--;
+    public void  removeObjOfIndex(int i)
+    {
+       for(int a=i;a<size-1;a++)
+       {
+           array[a]=array[a+1];
+       }
+       array[size-1]=null;
+       size--;
+       
     }
+
 
     //remove Object, IndexOf, add(overloading which takes index and object and should put Object in particular index, if there is any element in index, it should rightshift
     class IteratorImpl implements Iterator {

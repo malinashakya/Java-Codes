@@ -60,6 +60,7 @@ public class NewHashMap {
             Object oldvalue = table[index];
             collisionset.put(hash(oldvalue), (KeyValue) oldvalue);
             //key->hashValue value->KeyValue
+            //if same key overwrite
             KeyValue newValue = new KeyValue(key, value);
             collisionset.put(hash(key), newValue);
             table[index] = collisionset;
@@ -97,6 +98,7 @@ public class NewHashMap {
             }
         }
     }
+
     public void printAllElements() {
         for (Object entry : table) {
             if (entry instanceof KeyValue) {
@@ -111,16 +113,18 @@ public class NewHashMap {
             }
         }
     }
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
         NewHashMap map = new NewHashMap();
         map.put("Hello", 1);
         map.put("World", 2);
-        map.put(123, "Java");
-        map.put(456, "Programming");
+        map.put(123, "Namaste");
+        map.put(456, "Hi");
 
         System.out.println("Size of the map: " + map.size());
+        System.out.println("Check purpose");
         System.out.println("Value for key 'Hello': " + map.get("Hello"));
-        System.out.println("Value for key 'Java': " + map.get("Java"));
+        System.out.println("Value for key 'Namaste': " + map.get("Namaste"));
 
         map.remove("World");
         System.out.println("Size of the map after removing 'World': " + map.size());

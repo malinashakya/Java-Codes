@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="91ddd17d-8ea2-4102-a79b-fe7d7b13eafe" name="Changes" comment="" />
+    <list default="true" id="91ddd17d-8ea2-4102-a79b-fe7d7b13eafe" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/build/classes/javaapplication4/NewArrayList$IteratorImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/javaapplication4/NewArrayList$IteratorImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/javaapplication4/NewArrayList.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/javaapplication4/NewArrayList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/javaapplication4/NewHashMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/javaapplication4/NewHashMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/javaapplication4/NewArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/javaapplication4/NewArrayList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/javaapplication4/NewHashMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/javaapplication4/NewHashMap.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2edVdtl5G5vzlsSkk0FQ84hBXat" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -19,8 +29,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -32,7 +44,11 @@
       <option name="presentableId" value="Default" />
       <updated>1712234538395</updated>
       <workItem from="1712234543067" duration="3000" />
+      <workItem from="1712385464575" duration="39000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
