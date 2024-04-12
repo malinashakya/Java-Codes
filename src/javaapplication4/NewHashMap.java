@@ -56,60 +56,32 @@ public class NewHashMap {
             table[index] = new KeyValue(key, value);
             size++;
         } else {
-            NewHashMap collisionset = new NewHashMap(capacity * 2);
-            Object oldvalue = table[index];
-            collisionset.put(hash(oldvalue), (KeyValue) oldvalue);
-            //key->hashValue value->KeyValue
-            //if same key overwrite
-            KeyValue newValue = new KeyValue(key, value);
-            collisionset.put(hash(key), newValue);
-            table[index] = collisionset;
-        }
-    }
-
-    public Object get(Object key) {
-        int index = hash(key);
-        KeyValue current = (KeyValue) table[index];
-        while (current != null) {
-            if (current.key.equals(key)) {
-                return current.value;
-            }
-            current = current.next;
-        }
-        return "Key not found";
-    }
-
-    public void remove(Object key) {
-        int index = (hash(key));
-        if (table[index] != null) {
-            KeyValue prev = null;
             KeyValue current = (KeyValue) table[index];
-            while (current != null) {
+            while (current.next != null) {
                 if (current.key.equals(key)) {
-                    if (prev == null) {
-                        table[index] = current.next;
-                    } else {
-                        prev.next = current.next;
-                    }
-                    size--;
+                    current.value = value;
+                    return;
                 }
-                prev = current;
                 current = current.next;
             }
+            current.next=new KeyValue(key, value);
+            size++;
         }
     }
 
     public void printAllElements() {
         for (Object entry : table) {
-            if (entry instanceof KeyValue) {
-                KeyValue current = (KeyValue) entry;
-                while (current != null) {
-                    System.out.println("Key: " + current.key + ", Value: " + current.value);
-                    current = current.next;
+            if (entry != null) {
+                if (entry instanceof KeyValue) {
+                    KeyValue current = (KeyValue) entry;
+                    while (current != null) {
+                        System.out.println("Key: " + current.key + ", Value: " + current.value);
+                        current = current.next;
+                    }
+                } else if (entry instanceof NewHashMap) {
+                    NewHashMap collisionset = (NewHashMap) entry;
+                    collisionset.printAllElements();
                 }
-            } else if (entry instanceof NewHashMap) {
-                NewHashMap collisionset = (NewHashMap) entry;
-                collisionset.printAllElements();
             }
         }
     }
@@ -123,11 +95,7 @@ public class NewHashMap {
 
         System.out.println("Size of the map: " + map.size());
         System.out.println("Check purpose");
-        System.out.println("Value for key 'Hello': " + map.get("Hello"));
-        System.out.println("Value for key 'Namaste': " + map.get("Namaste"));
 
-        map.remove("World");
-        System.out.println("Size of the map after removing 'World': " + map.size());
         map.printAllElements();
     }
 }
