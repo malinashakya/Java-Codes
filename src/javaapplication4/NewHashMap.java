@@ -55,12 +55,17 @@ public class NewHashMap {
         if (table[index] == null) {
             table[index] = new KeyValue(key, value);
             size++;
-        } else {
+        }
+        
+        else {
             KeyValue current = (KeyValue) table[index];
-            while (current.next != null) {
+            while (current != null) {
                 if (current.key.equals(key)) {
                     current.value = value;
                     return;
+                }
+                if(current.next==null){
+                    break;
                 }
                 current = current.next;
             }
@@ -90,8 +95,9 @@ public class NewHashMap {
         NewHashMap map = new NewHashMap();
         map.put("Hello", 1);
         map.put("World", 2);
-        map.put(123, "Namaste");
         map.put(456, "Hi");
+        map.put(123, "Namaste");
+        map.put(456, "Hiii");
 
         System.out.println("Size of the map: " + map.size());
         System.out.println("Check purpose");
