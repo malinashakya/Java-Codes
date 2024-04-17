@@ -19,12 +19,6 @@ public class NewHashMap {
         size = 0;
     }
 
-    public NewHashMap(int capacity) {
-        this.capacity = capacity;
-        table = new Object[capacity];
-        size = 0;
-    }
-
     public int size() {
         return size;
     }
@@ -55,24 +49,22 @@ public class NewHashMap {
         if (table[index] == null) {
             table[index] = new KeyValue(key, value);
             size++;
-        }
-        
-        else {
+        } else {
             KeyValue current = (KeyValue) table[index];
             while (current != null) {
                 if (current.key.equals(key)) {
                     current.value = value;
                     return;
                 }
-                if(current.next==null){
+                if (current.next == null) {
                     break;
                 }
                 current = current.next;
             }
-            current.next=new KeyValue(key, value);
+            current.next = new KeyValue(key, value);
             size++;
         }
-    }
+    } 
 
     public void printAllElements() {
         for (Object entry : table) {
@@ -83,9 +75,9 @@ public class NewHashMap {
                         System.out.println("Key: " + current.key + ", Value: " + current.value);
                         current = current.next;
                     }
-                } else if (entry instanceof NewHashMap) {
-                    NewHashMap collisionset = (NewHashMap) entry;
-                    collisionset.printAllElements();
+                } else {
+                    NewHashMap set = (NewHashMap) entry;
+                    set.printAllElements();
                 }
             }
         }
@@ -93,15 +85,20 @@ public class NewHashMap {
 
     public static void main(String[] args) {
         NewHashMap map = new NewHashMap();
+        System.out.println("Is Empty? " + map.isEmpty());
         map.put("Hello", 1);
         map.put("World", 2);
         map.put(456, "Hi");
         map.put(123, "Namaste");
         map.put(456, "Hiii");
+        map.put(56, "iii");
+        System.out.println(map.size());
+        map.put(46, "Heyyyi");
+        map.put(146, "Heyyyiss");
 
         System.out.println("Size of the map: " + map.size());
         System.out.println("Check purpose");
-
         map.printAllElements();
+        System.out.println("Is Empty? " + map.isEmpty());
     }
 }
