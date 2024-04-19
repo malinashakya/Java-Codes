@@ -82,25 +82,46 @@ public class LinkedList {
 
     public boolean searchData(int data) {
         Node temp = head;
-        while (temp.next != null) {
+        while (temp != null) {
             if (temp.data == data) {
                 return true;
             }
+            temp = temp.next;
         }
         return false;
     }
 
     public void DeleteByData(int data) {
-        Node temp = head;
-       if(searchData(data)){
-        while(temp.next!=null)
-        {
-            if(temp.data==data)
-            {
-                temp=temp.next;
+        if (!isEmpty()) {
+            if (searchData(data)) {
+                Node current = head;
+                Node previous = null;
+
+                while (current != null) {
+                    if (current.data == data) {
+                        if (previous == null) {
+                            head = current.next;
+                            if (head == null) {
+                                tail = null;
+                            }
+                        } else {
+                            previous.next = current.next;
+                            if (current == tail) {
+
+                                tail = previous;
+                            }
+                        }
+                        return;
+                    }
+                    previous = current;
+                    current = current.next;
+                }
+            } else {
+                System.out.println("Cannot be deleted as there is no such element like: " + data);
             }
+        } else {
+            System.out.println("List is empty");
         }
-       }
     }
 
     public void PrintAll() {
@@ -112,12 +133,20 @@ public class LinkedList {
     }
 
     public void PrintAllReverse() {
-        Node temp = tail;
-        temp.next = head;
-        while (temp.next != tail) {
-            System.out.println("Reversed Element:" + temp.data);
-            temp = temp.next;
-        }
+       Node prev=null;
+       Node next=null;
+       Node current=head;
+       while(current!=null)
+       {
+           next=current.next;
+           current.next=prev;
+           prev=current;
+           current=next;
+       }
+        while (prev != null) {
+        System.out.println("Reversed Element: " + prev.data);
+        prev = prev.next; // Move to the next node in the reversed list
+    }
     }
 
     public static void main(String[] args) {
@@ -126,15 +155,20 @@ public class LinkedList {
         list.insertToHead(1);
         list.insertToHead(2);
         list.insertToHead(3);
+        list.insertToTail(11);
         list.PrintAll();
-        list.DeleteByData(0);
+        System.out.println(list.searchData(0));
+         System.out.println(list.searchData(11));
+        list.DeleteByData(11);
+        System.out.println("Datas after deleting the element 0");
         list.PrintAll();
+//        list.PrintAll();
 //        list.DeleteHead();
 //        System.out.println("Deleted by Head");
 //        list.PrintAll();
 //        list.DeleteTail();
 //        System.out.println("Deleted by Tail");
 //        list.PrintAll();
-//        list.PrintAllReverse();
+        list.PrintAllReverse();
     }
 }
