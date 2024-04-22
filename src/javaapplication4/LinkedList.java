@@ -133,20 +133,19 @@ public class LinkedList {
     }
 
     public void PrintAllReverse() {
-       Node prev=null;
-       Node next=null;
-       Node current=head;
-       while(current!=null)
-       {
-           next=current.next;
-           current.next=prev;
-           prev=current;
-           current=next;
-       }
+        Node prev = null;
+        Node next = null;
+        Node current = head;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
         while (prev != null) {
-        System.out.println("Reversed Element: " + prev.data);
-        prev = prev.next; // Move to the next node in the reversed list
-    }
+            System.out.println("Reversed Element: " + prev.data);
+            prev = prev.next;
+        }
     }
 
     public static void main(String[] args) {
@@ -158,7 +157,7 @@ public class LinkedList {
         list.insertToTail(11);
         list.PrintAll();
         System.out.println(list.searchData(0));
-         System.out.println(list.searchData(11));
+        System.out.println(list.searchData(11));
         list.DeleteByData(11);
         System.out.println("Datas after deleting the element 0");
         list.PrintAll();
