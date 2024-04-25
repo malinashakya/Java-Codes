@@ -13,6 +13,8 @@ public class SwitchingWord {
     public static void main(String[] args) {
         String paragraph = "This is word switching program";
         String[] words = paragraph.split("\\s+");
+        //If digit vayo vane swap nagarne
+        //If one paragraph is given is there sequence of letter like presecnce of ord true, if lord false, ordinary false, d s true 
         System.out.println(words[0]);
         System.out.println(words[1]);
         System.out.println(words[2]);
